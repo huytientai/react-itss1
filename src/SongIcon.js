@@ -38,7 +38,7 @@ class SongIcon extends Component {
             <Card
                 hoverable
                 style={{ width: 200 }}
-                cover={<img className="AlbumImage" alt="cover" src={this.props.image} />}
+                cover={<img className="AlbumImage" alt="cover" src={this.props.cover} />}
             >
                 <Meta title={this.props.name} description={this.props.description} />
 
