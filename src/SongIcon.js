@@ -14,15 +14,20 @@ class SongIcon extends Component {
             like_status: false
         };
     }
+    static getDerivedStateFromProps(props, state) {
+        if(props.like_status)
+             return {like:<HeartFilled />, like_status: true};
+        return undefined;
+  }
 
     changeHeart = (event) => {
-        console.log(this.state.like)
         if (this.state.like_status === false) {
             console.log('Liked');
             this.setState({
                 like: <HeartFilled />,
                 like_status: true
             });
+            this.props.callbackFromParent([this.props.index,true]);
         }
         else if (this.state.like_status === true) {
             console.log('Unliked');
@@ -30,7 +35,9 @@ class SongIcon extends Component {
                 like: <HeartOutlined />,
                 like_status: false
             });
+            this.props.callbackFromParent([this.props.index,false]);
         }
+        
     }
 
     render() {
@@ -52,6 +59,7 @@ class SongIcon extends Component {
                     icon={<CaretRightOutlined />}
                     onClick={this.props.onClick}
                 />
+                <p>{this.props.index}</p>
             </Card>
         )
     }
