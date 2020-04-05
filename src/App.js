@@ -26,7 +26,8 @@ class App extends Component {
           description: "The Korean's Beyonce returns!!!!",
           musicSrc:
             'http://res.cloudinary.com/alick/video/upload/v1502689683/Luis_Fonsi_-_Despacito_ft._Daddy_Yankee_uyvqw9.mp3',
-        },
+          like_status: false,
+          },
         {
           name: "Don't start now",
           singer: "Taeyeon",
@@ -34,6 +35,7 @@ class App extends Component {
           description: "Dua Lipa's new ablum. Party all night long",
           musicSrc:
             'http://res.cloudinary.com/alick/video/upload/v1502689683/Luis_Fonsi_-_Despacito_ft._Daddy_Yankee_uyvqw9.mp3',
+          like_status: false,
         },
         {
           name: "Four Wall",
@@ -42,6 +44,7 @@ class App extends Component {
           description: "The Korean's Beyonce returns!!!!",
           musicSrc:
             'http://res.cloudinary.com/alick/video/upload/v1502689683/Luis_Fonsi_-_Despacito_ft._Daddy_Yankee_uyvqw9.mp3',
+          like_status: false,
         },
         {
           name: "Don't stop",
@@ -50,6 +53,7 @@ class App extends Component {
           description: "Dua Lipa's new ablum. Party all night long",
           musicSrc:
             'http://res.cloudinary.com/alick/video/upload/v1502689683/Luis_Fonsi_-_Despacito_ft._Daddy_Yankee_uyvqw9.mp3',
+          like_status: false,
         },
         {
           name: "Kill this love",
@@ -58,6 +62,7 @@ class App extends Component {
           description: "BLACKPINK IN YOUR AREA. Newest single",
           musicSrc:
             'http://res.cloudinary.com/alick/video/upload/v1502689683/Luis_Fonsi_-_Despacito_ft._Daddy_Yankee_uyvqw9.mp3',
+          like_status: false,
         },
         {
           name: "Duyen Am",
@@ -66,7 +71,8 @@ class App extends Component {
           description: "Vietnamese top chart single.",
           musicSrc:
             'http://res.cloudinary.com/alick/video/upload/v1502689683/Luis_Fonsi_-_Despacito_ft._Daddy_Yankee_uyvqw9.mp3',
-        },
+          like_status: false,
+          },
         {
           name: "Kill this love",
           singer: "Taeyeon",
@@ -74,6 +80,7 @@ class App extends Component {
           description: "BLACKPINK IN YOUR AREA. Newest single",
           musicSrc:
             'http://res.cloudinary.com/alick/video/upload/v1502689683/Luis_Fonsi_-_Despacito_ft._Daddy_Yankee_uyvqw9.mp3',
+          like_status: false,
         },
         {
           name: "Duyen Am",
@@ -82,6 +89,7 @@ class App extends Component {
           description: "Vietnamese top chart single.",
           musicSrc:
             'http://res.cloudinary.com/alick/video/upload/v1502689683/Luis_Fonsi_-_Despacito_ft._Daddy_Yankee_uyvqw9.mp3',
+          like_status: false,
         },
         {
           name: "Four Wall",
@@ -90,6 +98,7 @@ class App extends Component {
           description: "The Korean's Beyonce returns!!!!",
           musicSrc:
             'http://res.cloudinary.com/alick/video/upload/v1502689683/Luis_Fonsi_-_Despacito_ft._Daddy_Yankee_uyvqw9.mp3',
+          like_status: false,
         },
         {
           name: "Don't start now",
@@ -98,6 +107,7 @@ class App extends Component {
           description: "Dua Lipa's new ablum. Party all night long",
           musicSrc:
             'http://res.cloudinary.com/alick/video/upload/v1502689683/Luis_Fonsi_-_Despacito_ft._Daddy_Yankee_uyvqw9.mp3',
+          like_status: false,
         },
         {
           name: "Kill this love",
@@ -106,6 +116,7 @@ class App extends Component {
           description: "BLACKPINK IN YOUR AREA. Newest single",
           musicSrc:
             'http://res.cloudinary.com/alick/video/upload/v1502689683/Luis_Fonsi_-_Despacito_ft._Daddy_Yankee_uyvqw9.mp3',
+          like_status: false,
         },
         {
           name: "Duyen Am",
@@ -114,6 +125,7 @@ class App extends Component {
           description: "Vietnamese top chart single.",
           musicSrc:
             'http://res.cloudinary.com/alick/video/upload/v1502689683/Luis_Fonsi_-_Despacito_ft._Daddy_Yankee_uyvqw9.mp3',
+          like_status: false, 
         },
       ],
       feed: [
@@ -152,6 +164,8 @@ class App extends Component {
           singer={item.singer}
           cover={item.cover}
           description={item.description}
+          like_status={item.like_status}
+          callbackFromParent={this.SongIconCallback}
           onClick={() => this.play_song(idx, item)}
         />
       </div>
@@ -190,14 +204,20 @@ class App extends Component {
     return feeds;
   }
 
-  searchCallback= (searchData)=>{
+  search_callback= (searchData)=>{
     {/*this.setState({row1:this.render_songs(searchData)});
      this.state.row1=this.render_songs(searchData);
       
       console.log(this.state.row1);*/}
       document.getElementById('row1').innerHTML=ReactDOMServer.renderToString(this.render_songs(searchData));
-
+     
   };
+
+  SongIconCallback= (songData) => {
+    let songs=this.state.songs;
+    songs[songData[0]].like_status = songData[1];
+    this.setState({songs});
+  }
 
   render() {
     var row1 = this.render_songs(this.state.songs);
@@ -212,7 +232,7 @@ class App extends Component {
 
         
         <div className="App-grid-container" style={{width: 250}}>
-          <Search songs={this.state.songs} callbackFromParent={this.searchCallback}/>
+          <Search songs={this.state.songs} callbackFromParent={this.search_callback}/>
         </div>
         
         <div id="row1">{row1}</div>
