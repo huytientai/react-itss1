@@ -22,7 +22,8 @@ class Search extends Component{
 			});
 		this.state.results=results;
 		// console.log(results);
-		}
+		}else this.state.results=this.props.songs;
+		
 		this.props.callbackFromParent(this.state.results);
 	}
 

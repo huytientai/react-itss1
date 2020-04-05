@@ -102,6 +102,7 @@ class App extends Component {
         </div>
         
         <div id="row1">{row1}</div>
+
       </div>
     );
   }
