@@ -1,14 +1,18 @@
 import React, { Component } from 'react';
 import './App.css';
 import SongIcon from './SongIcon.js';
-import Profile from './Profile.js'
+
+import Profile from './Profile.js';
+import Search from './Search.js';
+import ReactDOMServer from 'react-dom/server';
 import NewsFeed from './NewsFeed.js';
-import MusicPlayer from './MusicPlayer.js'
+import MusicPlayer from './MusicPlayer.js';
 
 import { Menu } from 'antd';
 import { NodeExpandOutlined } from '@ant-design/icons';
 
 const { SubMenu } = Menu;
+
 
 class App extends Component {
   constructor() {
@@ -135,9 +139,12 @@ class App extends Component {
     };
   }
 
-  render_songs() {
+  render_songs(searchData) {
     // console.log(this.state.songs);
-    var songs = this.state.songs.map((item, idx) =>
+    var array = searchData.filter(function (el){
+      return el != null;
+    });
+    var songs = array.map((item, idx) =>
       <div className="App-grid-item">
         <SongIcon
           index={idx}
@@ -149,7 +156,7 @@ class App extends Component {
         />
       </div>
     );
-    songs = <div className="App-grid-container">{songs}</div>;
+   songs = <div className="App-grid-container">{songs}</div>; 
     return songs;
   }
 
@@ -183,14 +190,33 @@ class App extends Component {
     return feeds;
   }
 
+  searchCallback= (searchData)=>{
+    {/*this.setState({row1:this.render_songs(searchData)});
+     this.state.row1=this.render_songs(searchData);
+      
+      console.log(this.state.row1);*/}
+      document.getElementById('row1').innerHTML=ReactDOMServer.renderToString(this.render_songs(searchData));
+
+  };
+
   render() {
-    var row1 = this.render_songs();
+    var row1 = this.render_songs(this.state.songs);
+    
     var renderfeeds = this.render_feed();
+
     return (
       <div className="App">
         <div className="App-profile">
           <Profile />
         </div>
+
+        
+        <div className="App-grid-container" style={{width: 250}}>
+          <Search songs={this.state.songs} callbackFromParent={this.searchCallback}/>
+        </div>
+        
+        <div id="row1">{row1}</div>
+
         <Menu className="Feeds-grid-container"
           defaultSelectedKeys={['1']}
           defaultOpenKeys={['defaultMenu']}
